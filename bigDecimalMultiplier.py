@@ -58,14 +58,9 @@ bint1, bint2 = sys.argv[1:]
 partialProducts = []
 
 offset = 0
-for c in bint1[::-1]:
-  partialProducts.append([int(c), offset])
+for digit in bint1[::-1]:
+  partialProducts.append(symbolicMultiply(int(digit), bint2 + '0' * offset))
   offset = offset + 1
 
-newPartialProducts = []
-for p in partialProducts:
-  digit, offset = p[0:2]
-  newPartialProducts.append(symbolicMultiply(digit, bint2 + '0' * offset))
-
-print newPartialProducts
-print sumPartialProducts(newPartialProducts)
+print partialProducts
+print sumPartialProducts(partialProducts)
