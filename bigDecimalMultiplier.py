@@ -4,6 +4,7 @@ import operator
 import sys
 
 def digitOp(d1, d2, op, carry):
+  """ building block for combining digits d1 and d2 with op and taking the carry into consideration"""
   newDigit = op(d1, d2) + carry
   carry = 0
   if newDigit >= 10:
@@ -12,7 +13,7 @@ def digitOp(d1, d2, op, carry):
   return newDigit, carry
 
 def rippleOp(n1, n2, op):
-  """ n for number """
+  """ combine numbers n1 and n2 digit by digit using op """
   output = ''
   carry = 0
   # d for digit
@@ -58,4 +59,5 @@ for digit in bint1[::-1]:
   partialProducts.append(symbolicMultiply(int(digit), bint2 + '0' * offset))
   offset = offset + 1
 
+# sum the partial products
 print sumPartialProducts(partialProducts)
