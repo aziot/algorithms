@@ -1,16 +1,23 @@
 #!/usr/bin/python
 
+import operator
 import sys
 
-def symbolicMultiply(digit, multiplicant):
+def digitOp(d1, d2, op, carry):
+  newDigit = op(d1, d2) + carry
+  carry = 0
+  if newDigit >= 10:
+    carry = newDigit / 10
+    newDigit = newDigit % 10
+  return newDigit, carry
+
+def coreOp(n1, n2, op):
+  """ n for number """
   output = ''
   carry = 0
-  for c in multiplicant[::-1]:
-    newDigit = int(c) * digit + carry
-    carry = 0
-    if newDigit >= 10:
-      carry = newDigit / 10
-      newDigit = newDigit % 10
+  # d for digit
+  for d1, d2 in zip(n1, n2):
+    newDigit, carry = digitOp(int(d1), int(d2), op, carry)
     output = str(newDigit) + output
  
   if carry > 0: 
@@ -18,30 +25,16 @@ def symbolicMultiply(digit, multiplicant):
   else:
     return output
 
+def symbolicMultiply(digit, multiplicant):
+  return coreOp(multiplicant[::-1], [digit]*len(multiplicant), operator.mul)
+
 def symbolicSum(a, b):
   maxLength = max(len(a), len(b))
   a = '0' * (maxLength - len(a)) + a
   b = '0' * (maxLength - len(b)) + b
-  
-  output = ''
-  carry = 0
-  for d1, d2 in zip(a[::-1], b[::-1]):
-    newDigit = int(d1) + int(d2) + carry
-    carry = 0
-    if newDigit >= 10:
-      carry = newDigit / 10
-      newDigit = newDigit % 10
-    output = str(newDigit) + output
-    
-  if carry > 0:
-    print 'symbolic sum', a, b, str(carry) + output
-    return str(carry) + output
-  else:
-    print 'symbolic sum', a, b, output
-    return output
+  return coreOp(a[::-1], b[::-1], operator.add)
 
 def sumPartialProducts(partialProducts):
-  print 'sum partial products', partialProducts
   if not len(partialProducts):
     return ''
   elif len(partialProducts) == 1:
@@ -62,5 +55,4 @@ for digit in bint1[::-1]:
   partialProducts.append(symbolicMultiply(int(digit), bint2 + '0' * offset))
   offset = offset + 1
 
-print partialProducts
 print sumPartialProducts(partialProducts)
