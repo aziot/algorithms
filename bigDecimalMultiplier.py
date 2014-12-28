@@ -2,9 +2,8 @@
 
 import sys
 
-def symbolicMultiply(digit, multiplicant, offset):
-  output = '0' * offset
-  
+def symbolicMultiply(digit, multiplicant):
+  output = ''
   carry = 0
   for c in multiplicant[::-1]:
     newDigit = int(c) * digit + carry
@@ -66,7 +65,7 @@ for c in bint1[::-1]:
 newPartialProducts = []
 for p in partialProducts:
   digit, offset = p[0:2]
-  newPartialProducts.append(symbolicMultiply(digit, bint2, offset))
+  newPartialProducts.append(symbolicMultiply(digit, bint2 + '0' * offset))
 
 print newPartialProducts
 print sumPartialProducts(newPartialProducts)
