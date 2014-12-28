@@ -11,12 +11,13 @@ def digitOp(d1, d2, op, carry):
     newDigit = newDigit % 10
   return newDigit, carry
 
-def coreOp(n1, n2, op):
+def rippleOp(n1, n2, op):
   """ n for number """
   output = ''
   carry = 0
   # d for digit
-  for d1, d2 in zip(n1, n2):
+  # ripple starts from the lowest digit
+  for d1, d2 in zip(n1[::-1], n2[::-1]):
     newDigit, carry = digitOp(int(d1), int(d2), op, carry)
     output = str(newDigit) + output
  
@@ -26,13 +27,14 @@ def coreOp(n1, n2, op):
     return output
 
 def symbolicMultiply(digit, multiplicant):
-  return coreOp(multiplicant[::-1], [digit]*len(multiplicant), operator.mul)
+  return rippleOp(multiplicant, [digit]*len(multiplicant), operator.mul)
 
-def symbolicSum(a, b):
-  maxLength = max(len(a), len(b))
-  a = '0' * (maxLength - len(a)) + a
-  b = '0' * (maxLength - len(b)) + b
-  return coreOp(a[::-1], b[::-1], operator.add)
+def symbolicSum(n1, n2):
+  """ n for number """
+  maxLength = max(len(n1), len(n2))
+  n1 = '0' * (maxLength - len(n1)) + n1
+  n2 = '0' * (maxLength - len(n2)) + n2
+  return rippleOp(n1, n2, operator.add)
 
 def sumPartialProducts(partialProducts):
   if not len(partialProducts):
@@ -48,8 +50,9 @@ if len(sys.argv) < 3:
 
 bint1, bint2 = sys.argv[1:]
 
+# multiply each digit of bint1 with a shifted version of bint2 starting from the lowest digit
+# store each partial product in a list
 partialProducts = []
-
 offset = 0
 for digit in bint1[::-1]:
   partialProducts.append(symbolicMultiply(int(digit), bint2 + '0' * offset))
