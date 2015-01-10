@@ -19,7 +19,7 @@ while len(res) < num_ints_in_file:
   if int_chosen not in res:
     res.add(int_chosen)
 
-f = open('out.pp', 'w')
+f = open('in.bv', 'w')
 for i in res:
   f.write(str(i) + '\n')
 f.close()
