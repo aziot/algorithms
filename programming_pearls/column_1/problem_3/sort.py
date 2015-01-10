@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import resource
 import sys
 
 import BitVector
@@ -24,3 +25,5 @@ for index in xrange(len(bv)):
   if bv[index]:
     f.write(str(index) + '\n')
 f.close()
+
+print resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
