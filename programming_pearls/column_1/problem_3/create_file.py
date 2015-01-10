@@ -1,13 +1,16 @@
 #!/usr/bin/python
 
 import random
+import resource
 import sys
 
 if len(sys.argv) <= 1:
-  print 'Usage: <max_integer> <num_ints_in_file>'
+  print 'Usage: <max_integer> <num_ints_in_file> <output_filename>'
   sys.exit(1)
 
-max_integer, num_ints_in_file = map(lambda x: int(x), sys.argv[1:])
+max_integer, num_ints_in_file, output_filename = sys.argv[1:]
+max_integer = int(max_integer)
+num_ints_in_file = int(num_ints_in_file)
 
 random.seed()
 
@@ -19,7 +22,9 @@ while len(res) < num_ints_in_file:
   if int_chosen not in res:
     res.add(int_chosen)
 
-f = open('in.bv', 'w')
+f = open(output_filename, 'w')
 for i in res:
   f.write(str(i) + '\n')
 f.close()
+
+print resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
