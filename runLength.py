@@ -24,7 +24,7 @@ def consumeSingleCharacter(sequence):
 def encode(sequence):
   if sequence:
     char, index, subsequence = consumeSingleCharacter(sequence)
-    sys.stdout.write("".join([char, str(index)]))
+    sys.stdout.write(str(index).join([char, '#']))
     encode(subsequence)
 
 def isNumber(s):
@@ -39,7 +39,7 @@ def generateSingleCharacter(sequence):
   while index < len(sequence) and isNumber(sequence[index]):
     index = index + 1
 
-  return (sequence[0], sequence[1:index], sequence[index:])
+  return (sequence[0], sequence[1:index], sequence[index+1:])
   
 def decode(sequence):
   if sequence:
