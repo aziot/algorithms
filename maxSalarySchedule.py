@@ -24,8 +24,9 @@ def optimalSchedule(schedule):
         return subCost + schedule[0], [schedule[0]] + subSchedule
       else:
         if schedule[0] > schedule[1]:
-          print 'return', subCost + schedule[0] - schedule[1], [schedule[0]] + subSchedule[1:]
-          return subCost + schedule[0] - schedule[1], [schedule[0]] + subSchedule[1:]
+          subCost, subSchedule = optimalSchedule(schedule[2:])
+          print 'return', schedule[0] + subCost, [schedule[0]] + subSchedule
+          return schedule[0] + subCost, [schedule[0]] + subSchedule
         else:
           print 'return', subCost, subSchedule
           return subCost, subSchedule
@@ -37,7 +38,8 @@ salaries = [0] * days
 for i in range(days):
   # salaries[i] = random.randint(-salary_bound, salary_bound)
   salaries[i] = random.randint(0, salary_bound)
-print salaries
 
-# test input [7, 7, 2, 10, 9, 2, 1, 3, 5, 8]
+# test input
+# salaries = [7, 7, 2, 10, 9, 2, 1, 3, 5, 8]
+print salaries
 print optimalSchedule(salaries)
